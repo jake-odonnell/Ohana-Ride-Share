@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container m-3">
+        <!-- Nav Bar -->
+        <div class="nav-bar d-flex justify-content-around">
+            <h1>Welcome {{user.first_name}}</h1>
+            <div class="d-flex justify-content-between">
+                <div class="d-flex">
+                    <form action="/request_ride" class="text-center">
+                        <button type="submit" class="btn btn-primary m-3">Request Ride</button>
+                    </form>
+                    <form action="/logout" class="text-center">
+                        <button type="submit" class="btn btn-primary m-3">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Rideshare requests -->
+        <div class="d-flex">
+            <div class="container">
+                <h3 class="text-primary">Rideshare Requests</h3>
+                {% for ride_req in ride_reqs %}
+                    <div class="container">
+                        <!-- Left column -->
+                        <div class="col-5 d-flex">
+                            <p>Rider:</p>
+                            <p class="text">Destination:</p>
+                            <p class="text">Date:</p>
+                            <a href="/delete-ride" class="text">DELETE</a>
+                        </div>
+                        <!-- Right column -->
+                        <div class="col-5 d-flex">
+                            <p>{{ride_req.rider}}</p>
+                            <p class="text">{{ride_req.destination}}</p>
+                            <p class="text">{{ride_req.date}}</p>
+                            <a href="/delete-ride" class="text">DELETE</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- Booked Rides -->
+            <div class="container">
+                <h3 class="text-primary">Booked Rides</h3>
+                {%for ride_booked in rides_booked%}
+                <div class="container">
+                    <p class="text">{{ride_booked.driver}} is driving {{ride_booked.rider}} to {{ride_booked.location}} on {{ride_booked.date}}</p>
+                    {% if ride_booked.rider_id == session.user_id %}
+                        <a href="/detail/{{ride_booked.id}}">Delete</a> | <a href="/cancel/{{ride_booked.id}}">Cancel</a>
+                    {% elseif ride_booked.driver_id == session.user_id %}
+                        <a href="/detail/{{ride_booked.id}}" class="text">Details</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

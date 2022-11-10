@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <!-- Nav Bar -->
+        <div class="nav-bar d-flex justify-content-around">
+            <h1>Welcome {{user.first_name}}</h1>
+            <div class="d-flex justify-content-between">
+                <div class="d-flex">
+                    <form action="/request_ride" class="text-center">
+                        <button type="submit" class="btn btn-primary m-3">Request Ride</button>
+                    </form>
+                    <form action="/logout" class="text-center">
+                        <button type="submit" class="btn btn-primary m-3">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="card p-3 rounded border-dark shadow">
+            <!-- Left column -->
+            <h3 class="font-bold text-center">Ready for your trip to {{ride.destionation}}</h3>
+            <div class="d-flex">
+                <div class="col-4">
+                    <p class="text">Who's driving:</p>
+                    <p class="text">Who's coming along:</p>
+                    <p class="text">Date:</p>
+                    <p>Pick-up LocationL:</p>
+                    <p class="text">Details</p>
+                    <a href="/edit/{{ride.id}}" class="link">Edit</a> | <a href="/delete/ride.id" class="link">Delete</a>
+                </div>
+                <!-- Right column -->
+                <div class="col-7">
+                    <h3 class="col-7">{{ride.driver}}</h3>
+                    <h3 class="col-7">{{ride.rider}}</h3>
+                    <h3 class="col-7">{{ride.date}}</h3>
+                    <h3 class="col-7">{{ride.pick_up}}</h3>
+                    <h3 class="col-7">{{ride.details}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
