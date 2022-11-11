@@ -14,8 +14,8 @@
             <h1>Welcome {{user.first_name}}</h1>
             <div class="d-flex justify-content-between">
                 <div class="d-flex">
-                    <form action="/request_ride" class="text-center">
-                        <button type="submit" class="btn btn-primary m-3">Request Ride</button>
+                    <form action="/dashboard" class="text-center">
+                        <button type="submit" class="btn btn-primary m-3">Dashboard</button>
                     </form>
                     <form action="/logout" class="text-center">
                         <button type="submit" class="btn btn-primary m-3">Logout</button>
@@ -25,24 +25,31 @@
         </div>
         <div class="card p-3 rounded border-dark shadow">
             <!-- Left column -->
-            <h3 class="font-bold text-center">Ready for your trip to {{ride.destionation}}</h3>
-            <div class="d-flex">
-                <div class="col-4">
-                    <p class="text">Who's driving:</p>
-                    <p class="text">Who's coming along:</p>
-                    <p class="text">Date:</p>
-                    <p>Pick-up LocationL:</p>
-                    <p class="text">Details</p>
-                    <a href="/edit/{{ride.id}}" class="link">Edit</a> | <a href="/delete/ride.id" class="link">Delete</a>
+            <h3 class="font-bold text-center">Ready for your trip to {{ride.destination}}</h3>
+            <div class="">
+                <div class="d-flex">
+                    <p class="col-3">Who's driving:</p>
+                    <p class="col-8">{{ride.driver_name}}</p>
                 </div>
-                <!-- Right column -->
-                <div class="col-7">
-                    <h3 class="col-7">{{ride.driver}}</h3>
-                    <h3 class="col-7">{{ride.rider}}</h3>
-                    <h3 class="col-7">{{ride.date}}</h3>
-                    <h3 class="col-7">{{ride.pick_up}}</h3>
-                    <h3 class="col-7">{{ride.details}}</h3>
+                <div class="d-flex">
+                    <p class="col-3">Who's coming along:</p>
+                    <p class="col-8">{{ride.rider_name}}</p>
                 </div>
+                <div class="d-flex">
+                    <p class="col-3">Date:</p>
+                    <p class="col-8">{{ride.date.strftime('%m/%d/%y')}}</p>
+                </div>
+                <div class="d-flex">
+                    <p class="col-3">Pick-up Location:</p>
+                    <p class="col-8">{{ride.pick_up}}</p>
+                </div>
+                <div class="d-flex">
+                    <p class="col-3">Details</p>
+                    <p class="col-8">{{ride.details}}</p>
+                </div>
+                {% if session.user_id == ride.rider_id %}
+                <p class="text-center mb-0"><a href="/edit_ride/{{ride.id}}" class="">Edit</a> | <a href="/delete-ride/{{ride.id}}" class="">Delete</a></p>
+                {% endif %}
             </div>
         </div>
     </div>

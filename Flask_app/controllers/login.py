@@ -33,7 +33,7 @@ def f_register():
             'password': bcrypt.generate_password_hash(request.form['password'])
         }
         session['user_id'] = User.add_user(data)
-        return redirect('/home')
+        return redirect('/dashboard')
     else:
         session['is_reg'] = True
         session['first_name'] = request.form['first_name']
@@ -44,10 +44,11 @@ def f_register():
 @app.route('/login-user', methods = ['POST'])
 def f_login():
     user = User.login(request.form)
+    print(user)
     if user == True:
         return redirect('/login')
     else:
-        return redirect('/home')
+        return redirect('/dashboard')
 
 @app.route('/logout')
 def logout():

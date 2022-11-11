@@ -24,14 +24,17 @@
             </div>
         </div>
         <div class="container">
-            <form action="/request-ride">
+            <form action="/edit-ride/{{ride.id}}" method="post">
                 <div class="container">
                     <label for="pick_up" class="col-4">Pick-up Location:</label>
                     <input type="text" name="pick_up" class="col-6" value="{{ride.pick_up}}">
                 <div class="container">
-                    <label for="description" class="col-4">Description:</label>
-                    <input type="text" name="description" class="col-6" value="{{ride.description}}">
+                    <label for="details" class="col-4">Description:</label>
+                    <input type="text" name="details" class="col-6" value="{{ride.details}}">
                 </div>
+                <input type="hidden" name="id" value="{{ride.id}}">
+                <input type="hidden" name="destination" value="{{ride.destination}}">
+                <input type="hidden" name="date" value="{{ride.date}}">
                 <div class="text-center">
                     <input type="submit" value="Request" class="btn-primary rounded">
                 </div>

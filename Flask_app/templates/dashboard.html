@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container m-3">
+    <div class="container">
         <!-- Nav Bar -->
         <div class="nav-bar d-flex justify-content-around">
             <h1>Welcome {{user.first_name}}</h1>
@@ -27,37 +27,47 @@
         <div class="d-flex">
             <div class="container">
                 <h3 class="text-primary">Rideshare Requests</h3>
-                {% for ride_req in ride_reqs %}
-                    <div class="container">
-                        <!-- Left column -->
-                        <div class="col-5 d-flex">
-                            <p>Rider:</p>
-                            <p class="text">Destination:</p>
-                            <p class="text">Date:</p>
-                            <a href="/delete-ride" class="text">DELETE</a>
+                {% for ride in rides %}
+                {% if not ride.driver_name %}
+                    <div class="card border-dark rounded shadow p-2 mb-3">
+                        <div class="d-flex">
+                            <p class="col-4">Rider:</p>
+                            <p class="col-7">{{ride.rider_name}}</p>
                         </div>
-                        <!-- Right column -->
-                        <div class="col-5 d-flex">
-                            <p>{{ride_req.rider}}</p>
-                            <p class="text">{{ride_req.destination}}</p>
-                            <p class="text">{{ride_req.date}}</p>
-                            <a href="/delete-ride" class="text">DELETE</a>
+                        <div class="d-flex">
+                            <p class="col-4">Destination:</p>
+                            <p class="col-7">{{ride.destination}}</p>
                         </div>
+                        <div class="d-flex">
+                            <p class="col-4">Date:</p>
+                            <p class="col-7">{{ride.date.strftime('%m/%d/%y')}}</p>
+                        </div>
+                        {% if user.id == ride.rider_id %}
+                        <a href="/delete-ride/{{ride.id}}">DELETE</a>
+                        {% else %}
+                        <a href="/accept-ride/{{ride.id}}">I can Drive!</a>
+                        {% endif %}
+
                     </div>
+                {% endif %}
                 {% endfor %}
             </div>
             <!-- Booked Rides -->
             <div class="container">
                 <h3 class="text-primary">Booked Rides</h3>
-                {%for ride_booked in rides_booked%}
-                <div class="container">
-                    <p class="text">{{ride_booked.driver}} is driving {{ride_booked.rider}} to {{ride_booked.location}} on {{ride_booked.date}}</p>
-                    {% if ride_booked.rider_id == session.user_id %}
-                        <a href="/detail/{{ride_booked.id}}">Delete</a> | <a href="/cancel/{{ride_booked.id}}">Cancel</a>
-                    {% elseif ride_booked.driver_id == session.user_id %}
-                        <a href="/detail/{{ride_booked.id}}" class="text">Details</a>
+                {%for ride in rides%}
+                {% if ride.driver_name%}
+                <div class="card border-dark rounded shadow p-2 mb-3">
+                    <p class="text">{{ride.driver_name}} is driving {{ride.rider_name}} to {{ride.destination}} on {{ride.date.strftime('%m/%d/%y')}}</p>
+                    {% if ride.rider_id == session.user_id %}
+                    <div class="d-flex">
+                        <p><a href="/edit_ride/{{ride.id}}" class="">Edit</a> | <a href="/details/{{ride.id}}" class="text">Details</a> | <a href="/delete-ride/{{ride.id}}">Delete</a></p>
+                    </div>
+                    {% elif ride.driver_id == session.user_id %}
+                        <p><a href="/details/{{ride.id}}" class="text">Details</a> | <a href="/cancel-ride/{{ride.id}}">Cancel</a></p>
                     {% endif %}
                 </div>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>

@@ -2,7 +2,7 @@ from Flask_app.config.mysqlconnection import connectToMySQL
 import re
 from flask import flash, session
 from Flask_app import bcrypt
-# from .recipe import Recipe
+# from .ride import Ride
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 class User:
@@ -18,7 +18,7 @@ class User:
     @staticmethod
     def add_user(data:dict):
         query = 'INSERT INTO users (first_name, last_name, email, password) VALUES (%(first_name)s, %(last_name)s, %(email)s,%(password)s);'
-        id = connectToMySQL('recipes').query_db(query, data)
+        id = connectToMySQL('ohana').query_db(query, data)
         return id
 
     @classmethod
@@ -56,7 +56,7 @@ class User:
     @staticmethod
     def get_all_emails():
         query = 'SELECT email FROM users'
-        emails = connectToMySQL('recipes').query_db(query)
+        emails = connectToMySQL('ohana').query_db(query)
         return emails
 
     @staticmethod
@@ -66,7 +66,7 @@ class User:
             flash('Invalid username/ password')
             return True
         query = 'SELECT id, password FROM users WHERE email = %(email)s'
-        user = connectToMySQL('recipes').query_db(query, data)
+        user = connectToMySQL('ohana').query_db(query, data)
         if bcrypt.check_password_hash(user[0]['password'], data['password']):
             session['user_id'] = user[0]['id']
             return user
@@ -79,5 +79,5 @@ class User:
     def get_user_from_id(cls, id):
         query = 'SELECT * FROM users WHERE id = %(id)s'
         data = {'id': id}
-        result = connectToMySQL('recipes').query_db(query, data)
+        result = connectToMySQL('ohana').query_db(query, data)
         return cls(result[0])
